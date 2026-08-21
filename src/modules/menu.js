@@ -131,6 +131,6 @@ export function loadMenu() {
  * (This is a placeholder - you can expand this later)
  */
 function handleAddToCart(itemName, price) {
-  alert(`${itemName} (${price}) added to cart!`);
+  window.showToast(`${itemName} (${price}) added to your order.`);
   // In a real app, this would add to a cart and update a counter
 }

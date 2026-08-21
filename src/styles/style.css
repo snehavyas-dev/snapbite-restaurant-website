@@ -4,6 +4,7 @@
 :root {
     --primary-color: #ff6347;
     --primary-dark: #e55239;
+    --accent-color: #f4b942;
     --text-dark: #1a1a1a;
     --text-light: #666;
     --bg-light: #f9f9f9;
@@ -28,7 +29,7 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-gray);
+    background: radial-gradient(circle at 12% 18%, rgba(255, 99, 71, 0.12), transparent 28%), var(--bg-gray);
     color: var(--text-dark);
     line-height: 1.6;
 }
@@ -107,41 +108,159 @@ main {
 /* ===== HERO SECTION ===== */
 
 .hero {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(180deg, #fff 0%, var(--bg-light) 100%);
-    border-radius: 12px;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    align-items: center;
+    gap: clamp(28px, 6vw, 80px);
+    min-height: 560px;
+    padding: clamp(42px, 7vw, 88px) clamp(24px, 6vw, 76px);
+    background: linear-gradient(135deg, #fffaf7 0%, #fff 55%, #fff1eb 100%);
+    border: 1px solid rgba(255, 99, 71, 0.12);
+    border-radius: 28px;
     margin: 30px 0;
+    overflow: hidden;
+    box-shadow: 0 22px 60px rgba(76, 38, 24, 0.1);
+}
+
+.hero::before {
+    position: absolute;
+    content: '';
+    width: 340px;
+    height: 340px;
+    right: -120px;
+    top: -130px;
+    border: 1px solid rgba(255, 99, 71, 0.18);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 1;
+    text-align: left;
+    animation: reveal-up 0.7s ease both;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 22px;
+    color: var(--primary-color);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 2px;
+    background: var(--primary-color);
 }
 
 .hero h1 {
-    font-size: clamp(28px, 5vw, 56px);
+    max-width: 620px;
+    font-size: clamp(42px, 6vw, 78px);
     margin: 0 0 15px 0;
     color: var(--text-dark);
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.03;
+    letter-spacing: -1px;
 }
 
 .hero h1 span {
     color: var(--primary-color);
     display: block;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
 }
 
 .hero p {
-    font-size: clamp(16px, 3vw, 20px);
+    font-size: clamp(16px, 2vw, 19px);
     margin: 0 0 30px 0;
     color: var(--text-light);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 500px;
 }
 
 .hero-buttons {
     display: flex;
     gap: 15px;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
     margin-top: 30px;
+}
+
+.hero-visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 390px;
+    animation: reveal-up 0.8s 0.15s ease both;
+}
+
+.visual-glow {
+    position: absolute;
+    width: min(34vw, 360px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 99, 71, 0.3), rgba(244, 185, 66, 0.15) 48%, transparent 70%);
+    filter: blur(2px);
+}
+
+.burger-art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(29vw, 300px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ff8068, #d9432f);
+    box-shadow: 18px 22px 35px rgba(104, 40, 25, 0.25), inset 10px 10px 24px rgba(255, 255, 255, 0.22);
+    font-size: clamp(100px, 13vw, 168px);
+    line-height: 1;
+    transform: rotate(-8deg);
+    animation: float-food 5s ease-in-out infinite;
+}
+
+.visual-badge {
+    position: absolute;
+    right: 4%;
+    bottom: 13%;
+    display: grid;
+    gap: 2px;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.84);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(12px);
+    transform: rotate(4deg);
+}
+
+.visual-badge strong {
+    color: var(--text-dark);
+    font-size: 18px;
+}
+
+.visual-badge span {
+    color: var(--text-light);
+    font-size: 11px;
+}
+
+@keyframes reveal-up {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-food {
+    0%, 100% { transform: rotate(-8deg) translateY(0); }
+    50% { transform: rotate(-4deg) translateY(-12px); }
 }
 
 .menu-btn,
@@ -425,6 +544,41 @@ main {
     transform: scale(1.05);
 }
 
+.reservation-confirmation {
+    margin: 20px 0 0;
+    padding: 14px 16px;
+    border-left: 3px solid var(--primary-color);
+    border-radius: 8px;
+    background: #fff4ef;
+    color: var(--text-dark);
+    font-size: 14px;
+    animation: reveal-up 0.4s ease both;
+}
+
+.toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1100;
+    max-width: min(360px, calc(100vw - 32px));
+    padding: 15px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    background: #1d1b1a;
+    color: white;
+    box-shadow: 0 14px 32px rgba(29, 27, 26, 0.25);
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* ===== FOOTER ===== */
 
 footer {
@@ -453,6 +607,42 @@ footer a:hover {
 /* ===== RESPONSIVE DESIGN ===== */
 
 @media (max-width: 768px) {
+    .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        gap: 20px;
+    }
+
+    .hero-copy {
+        text-align: center;
+    }
+
+    .eyebrow {
+        justify-content: center;
+    }
+
+    .hero h1,
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        min-height: 300px;
+    }
+
+    .burger-art {
+        width: min(58vw, 260px);
+    }
+
+    .visual-glow {
+        width: min(70vw, 320px);
+    }
+
     .nav-buttons {
         flex-direction: column;
         gap: 5px;
@@ -464,6 +654,7 @@ footer a:hover {
 
     .hero h1 {
         font-size: 32px;
+        letter-spacing: 0;
     }
 
     .hero p {
@@ -510,11 +701,25 @@ footer a:hover {
         padding: 40px 10px;
     }
 
+    .hero-visual {
+        min-height: 250px;
+    }
+
+    .visual-badge {
+        right: 0;
+        bottom: 5%;
+    }
+
     .hero h1 {
         font-size: 24px;
     }
 
     .hero p {
         font-size: 14px;
+    }
+
+    .toast {
+        right: 16px;
+        bottom: 16px;
     }
 }

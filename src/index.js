@@ -20,6 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavigation();
 });
 
+window.showToast = function showToast(message) {
+  let toast = document.querySelector('.toast');
+
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.setAttribute('role', 'status');
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.add('show');
+  window.clearTimeout(window.toastTimer);
+  window.toastTimer = window.setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2800);
+};
+
 /**
  * Set up click listeners for navigation buttons
  */

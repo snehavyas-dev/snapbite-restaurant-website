@@ -124,6 +124,11 @@ export function loadContact() {
   submitBtn.textContent = 'Reserve Table';
   form.appendChild(submitBtn);
 
+  const confirmation = document.createElement('p');
+  confirmation.classList.add('reservation-confirmation');
+  confirmation.setAttribute('role', 'status');
+  confirmation.hidden = true;
+
   // Handle form submission
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -134,14 +139,14 @@ export function loadContact() {
     const time = timeInput.value;
     const guests = guestsInput.value;
     
-    // Show confirmation
-    alert(`Thank you, ${name}!\n\nYour reservation for ${guests} guest(s) on ${date} at ${time} has been submitted. We'll contact you soon!`);
-    
-    // Reset form
+    confirmation.textContent = `Thank you, ${name}. Your table for ${guests} guest(s) is requested for ${date} at ${time}.`;
+    confirmation.hidden = false;
+    window.showToast('Reservation request received.');
     form.reset();
   });
 
   contactSection.appendChild(form);
+  contactSection.appendChild(confirmation);
 
   // Add the contact section to content
   content.appendChild(contactSection);
