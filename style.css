@@ -1,0 +1,528 @@
+/* Your CSS styles here */
+
+/* General/Reset Styles */
+
+*{
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-decoration-color: black;
+}
+
+.hamburger {
+    display: none;
+}
+
+/* regular desktop css */
+
+html {
+    scroll-behavior: smooth;
+}
+
+img, .menu-item, button {
+    border-radius: 12px;
+}
+
+header {
+    background-color: #ff6347;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header nav {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header nav .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header nav .nav-links {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+header nav ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav li {
+    margin: 0 15px;
+    font-weight: bold;
+    display:flex;
+}
+
+header nav li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav li a:hover {
+    text-decoration: underline;
+    background-color: #fcb897;
+}
+
+.order-btn {
+    background-color: white;
+    color: #ff6347;
+    border: 2px solid white;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.order-btn:hover {
+    background-color: transparent;
+    color: white;
+    transform: scale(1.05);
+}
+
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: white;
+}
+
+.hero h1 span {
+    color: #ff6347;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.menu-btn {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.order-btn {
+    background-color: #ff6347;
+    color: white;
+}
+
+.order-btn:hover {
+    background-color: transparent;
+    color: #ff8c69;
+    transform: scale(1.05);
+}
+
+.menu {
+    text-align: center;
+    justify-items: center;
+    background-color: white;
+    padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.menu h2 {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    font-size: 36px;
+}
+
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 columns of equal width */
+    grid-template-rows: repeat(3, 1fr); /* Pre-defines 3 rows of equal height */
+    /* Give the container a defined height if you want your 6 cards to perfectly */
+    /* occupy the top 2/3rds of a strict 3x3 square layout area */
+    min-height: 600px; 
+    max-height: 1200px;
+}
+
+.menu-item {
+    display: grid;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    justify-items: center;
+    margin: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+.menu-item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.menu-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.menu-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    aspect-ratio: 16 / 9; /* Forces a consistent widescreen shape */
+    object-fit: cover;
+}
+
+.menu-item h3 {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0px 0px 0px;
+    font-size: 26px; 
+}
+
+.menu-item p {
+    text-align: center;
+    width: 85%;
+    margin: 10px;
+}
+
+.menu-item .price {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    color: #ff6347;
+}
+
+.menu-item button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: transparent;
+    color: #ff8c69;
+    transform: scale(1.05);
+}
+
+.about {
+    text-align: center;
+    background-color: white;
+    padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.about h2 {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    font-size: 36px;
+}
+
+.about p {
+    text-align: center;
+    width: 85%;
+    margin: 10px auto;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.about-image {
+    width: 85%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; /* Adds space between the two images */
+    margin: 20px auto 10px auto; /* Centers the grid and adds spacing above and below */
+}
+
+.about img {
+    display: flex;
+    width: 100%;
+    height: 400px;
+    border-radius: 15px;
+    aspect-ratio: 16 / 9; /* Forces a consistent widescreen shape */
+    object-fit: cover;
+    justify-items: center;
+}
+
+.reserve-btn {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin:20px 20px;
+}
+
+.gallery {
+    height: 550px;
+    text-align: center;
+    background-color: white;
+    padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 80px;
+}
+
+.gallery h2 {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    font-size: 36px;
+}
+
+/* 1. The Container */
+.gallery-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
+  grid-template-rows: repeat(3, 200px);   /* Explicitly sets a 3-row depth */
+  gap: 20px;                             /* Space between images */
+  margin: 20px auto;                      /* Centers the grid container */
+  width: 85%;                             /* Adjusts the width of the gallery */
+}
+
+/* 2. The Images */
+.gallery-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Prevents images from stretching */
+  max-height: 100%;   /* Ensures images don't exceed their grid cell */
+  max-width: 100%;    /* Ensures images don't exceed their grid cell */
+  min-height: 100%;   /* Ensures images fill the grid cell */
+  min-width: 100%;    /* Ensures images fill the grid cell */
+}
+
+.reserve {
+    text-align: center;
+    background-color: white;
+    padding-top: 10px;
+    margin: 80px auto 40px auto;
+    padding-bottom: 10px;
+    border: 2px solid #ff6347;
+    border-radius: 20px;
+    width: 40%;
+}
+
+.reserve h2 {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    font-size: 36px;
+}
+
+.reserve-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 80%;
+    margin: 0 auto;
+    background-color: #ff6347;
+    border: 2px solid #f9f9f9;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.reserve-form input {
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.reserve-form button {
+    background-color: white;
+    color: #ff6347;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.reserve-form button:hover {
+    background-color: transparent;
+    color: white;
+    transform: scale(1.05);
+}
+
+footer {
+    background-color: white;
+    color: black;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer .footer-links {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+footer a {
+    color: #ff6347;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 15px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    background-color: #fcb897;
+}
+
+footer .social-meadia {
+    margin-top: 10px;
+}
+
+footer img {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    transition: transform 0.3s ease;
+}
+
+/* media query */
+@media (max-width: 768px) {
+    header nav {
+        flex-direction: column;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-links {
+        display:none !important;
+        background-color: #ff6347;
+        z-index: 100;
+    }
+
+    .nav-links.show {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 20px !important;
+    }
+    
+    header nav li {
+        margin: 10px 0;
+    }
+
+    header nav .logo {
+        margin-bottom: 10px;
+    }
+
+    header nav .order-btn {
+        margin-top: 10px;
+    }
+
+    .menu {
+        text-align: center;
+        justify-items: center;
+        background-color: white;
+        padding-top: 10px;
+        margin-top: 10px;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        height: auto !important; /* Allows the container to adjust height based on content */
+        overflow: visible;
+    }
+
+    .menu-items {
+        grid-template-columns: 1fr; /* Stacks menu items vertically */
+        grid-template-rows: auto;    /* Allows rows to adjust based on content */
+        min-height: auto !important; /* Allows the container to adjust height based on content */
+        max-height: none !important; /* Allows the container to adjust height based on content */
+    }
+
+    .menu-item {
+        margin: 10px 0; /* Adds spacing between stacked items */
+    }
+
+    .about, .gallery, .reserve {
+        padding: 20px;
+        margin: 10px auto;
+        height: auto; /* Allows sections to adjust height based on content */
+        width: 90%; /* Adjusts width for smaller screens */
+        left: 0;
+        transform: none; /* Removes centering transform for smaller screens */
+    }
+
+    .reserve {
+        left: 0;
+        transform: none; /* Removes centering transform for smaller screens */
+    }
+
+    .reserve-form {
+        width: 100%; /* Adjusts form width for smaller screens */
+    }
+
+    .reserve-form input {
+        width: 100%; /* Adjusts input width for smaller screens */
+    }
+
+    .about-image {
+        grid-template-columns: 1fr; /* Stacks images vertically */
+        position:static;
+        left:0;
+        transform:none;
+        width: 100%; /* Adjusts width for smaller screens */
+        margin: 20px auto 10px auto; /* Centers the grid and adds spacing above and below */
+    }
+
+    /* Adjust gallery layout for smaller screens */
+    .gallery-images {
+        grid-template-columns: 1fr; /* Stacks gallery images vertically */
+        grid-template-rows: auto;    /* Allows rows to adjust based on content */
+        height: auto;
+        width: 100%; /* Adjusts width for smaller screens */
+        margin: 20px auto; /* Centers the grid container */
+    }
+
+}
+

@@ -1,0 +1,25 @@
+{
+  "name": "snapbite-restaurant-page",
+  "version": "1.0.0",
+  "description": "SnapBite restaurant website - Odin Project Restaurant Page",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [
+    "restaurant",
+    "webpack",
+    "odin"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^7.1.4",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
