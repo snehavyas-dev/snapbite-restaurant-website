@@ -1,28 +1,48 @@
-/* SnapBite Restaurant Website - Main Styles */
+/* SnapBite Restaurant Website - Modern Enhanced Styles */
+
+/* ===== CSS VARIABLES ===== */
+:root {
+    --primary-color: #ff6347;
+    --primary-dark: #e55239;
+    --text-dark: #1a1a1a;
+    --text-light: #666;
+    --bg-light: #f9f9f9;
+    --bg-gray: #f4f4f4;
+    --border-color: #eee;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 /* General/Reset Styles */
 * {
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-html {
-    scroll-behavior: smooth;
+    background-color: var(--bg-gray);
+    color: var(--text-dark);
+    line-height: 1.6;
 }
 
 /* ===== HEADER & NAVIGATION ===== */
 
 header {
-    background-color: #ff6347;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
     color: white;
-    padding: 20px;
+    padding: 15px 20px;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 header nav {
@@ -31,96 +51,125 @@ header nav {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 header nav .logo {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 28px;
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: 1px;
 }
 
 .nav-buttons {
     display: flex;
-    gap: 10px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .nav-btn {
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
     border: 2px solid white;
     padding: 10px 20px;
-    border-radius: 30px;
-    font-size: 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .nav-btn:hover {
     background-color: white;
-    color: #ff6347;
-    transform: scale(1.05);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .nav-btn.active {
     background-color: white;
-    color: #ff6347;
-    font-weight: bold;
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
 /* ===== MAIN CONTENT ===== */
 
 main {
     min-height: calc(100vh - 200px);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* ===== HERO SECTION ===== */
 
 .hero {
     text-align: center;
-    padding: 80px 20px;
-    background-color: white;
+    padding: 60px 20px;
+    background: linear-gradient(180deg, #fff 0%, var(--bg-light) 100%);
+    border-radius: 12px;
+    margin: 30px 0;
 }
 
 .hero h1 {
-    font-size: 48px;
-    margin: 0 0 20px 0;
-    color: #333;
+    font-size: clamp(28px, 5vw, 56px);
+    margin: 0 0 15px 0;
+    color: var(--text-dark);
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .hero h1 span {
-    color: #ff6347;
+    color: var(--primary-color);
+    display: block;
 }
 
 .hero p {
-    font-size: 20px;
+    font-size: clamp(16px, 3vw, 20px);
     margin: 0 0 30px 0;
-    color: #666;
+    color: var(--text-light);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero-buttons {
     display: flex;
     gap: 15px;
     justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
 }
 
 .menu-btn,
 .order-btn {
-    background-color: #ff6347;
+    background-color: var(--primary-color);
     color: white;
-    border: 2px solid #ff6347;
-    padding: 12px 30px;
+    border: 2px solid var(--primary-color);
+    padding: 14px 35px;
     border-radius: 30px;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .menu-btn:hover,
 .order-btn:hover {
-    background-color: transparent;
-    color: #ff6347;
-    transform: scale(1.05);
+    background-color: white;
+    color: var(--primary-color);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.menu-btn:active,
+.order-btn:active {
+    transform: translateY(-1px);
 }
 
 /* ===== MENU SECTION ===== */
@@ -140,70 +189,76 @@ main {
 .menu-items {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    gap: 25px;
 }
 
 .menu-item {
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
 }
 
 .menu-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
 }
 
 .menu-item img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 12px;
-    margin-bottom: 15px;
+    display: block;
 }
 
 .menu-item h3 {
-    font-size: 22px;
-    margin: 15px 0;
-    color: #333;
+    font-size: 20px;
+    margin: 15px 15px 8px;
+    color: var(--text-dark);
+    font-weight: 700;
 }
 
 .menu-item p {
     font-size: 14px;
-    color: #666;
+    color: var(--text-light);
     line-height: 1.5;
-    margin-bottom: 15px;
+    margin: 0 15px 10px;
+    flex-grow: 1;
 }
 
 .menu-item .price {
     font-size: 18px;
-    font-weight: bold;
-    color: #ff6347;
-    margin-bottom: 15px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 10px 15px;
 }
 
 .add-btn {
-    background-color: #ff6347;
+    background-color: var(--primary-color);
     color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 30px;
+    border: 2px solid var(--primary-color);
+    padding: 12px 25px;
+    border-radius: 25px;
     font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
+    transition: var(--transition);
+    margin: 0 15px 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .add-btn:hover {
-    background-color: transparent;
-    color: #ff6347;
-    border: 2px solid #ff6347;
-    transform: scale(1.05);
+    background-color: white;
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.add-btn:active {
+    transform: translateY(0);
 }
 
 /* ===== ABOUT SECTION ===== */
@@ -373,7 +428,7 @@ main {
 /* ===== FOOTER ===== */
 
 footer {
-    background-color: #333;
+    background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
     color: white;
     text-align: center;
     padding: 30px 20px;
@@ -382,12 +437,13 @@ footer {
 
 footer p {
     margin: 0;
+    font-size: 14px;
 }
 
 footer a {
-    color: #ff6347;
+    color: var(--primary-color);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 footer a:hover {
