@@ -6,6 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack serve --mode development",
+    "api": "node server/server.js",
     "build": "webpack --mode production",
     "deploy": "npm run build && gh-pages -d dist"
   },
@@ -24,5 +25,8 @@
     "webpack": "^5.88.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
