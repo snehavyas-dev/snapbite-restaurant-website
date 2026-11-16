@@ -68,6 +68,24 @@ export function loadContact() {
   // Create reservation form
   const form = document.createElement('form');
   form.classList.add('reserve-form');
+  form.method = 'POST';
+  form.action = 'https://formsubmit.co/snehavyas250@gmail.com';
+
+  const addHiddenField = (name, value) => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  };
+
+  addHiddenField('_subject', 'New SnapBite reservation request');
+  addHiddenField(
+    '_autoresponse',
+    'Thanks for your reservation request at SnapBite. We received it and will contact you to confirm availability. This email is not a booking confirmation.',
+  );
+  addHiddenField('_next', 'https://snehavyas-dev.github.io/snapbite-restaurant-website/?reservation=submitted');
+  addHiddenField('_template', 'table');
 
   // Create name input
   const nameInput = document.createElement('input');
@@ -87,6 +105,11 @@ export function loadContact() {
   emailInput.autocomplete = 'email';
   emailInput.required = true;
   form.appendChild(emailInput);
+
+  const replyToInput = document.createElement('input');
+  replyToInput.type = 'hidden';
+  replyToInput.name = '_replyto';
+  form.appendChild(replyToInput);
 
   // Create phone input
   const phoneInput = document.createElement('input');
@@ -137,62 +160,11 @@ export function loadContact() {
   submitBtn.textContent = 'Reserve Table';
   form.appendChild(submitBtn);
 
-  const confirmation = document.createElement('p');
-  confirmation.classList.add('reservation-confirmation');
-  confirmation.setAttribute('role', 'status');
-  confirmation.hidden = true;
-  confirmation.setAttribute('aria-live', 'polite');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const submitButton = form.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    submitButton.textContent = 'Sending...';
-    confirmation.hidden = true;
-    confirmation.classList.remove('reservation-error');
-
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/snehavyas250@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          _subject: 'New SnapBite reservation request',
-          _replyto: emailInput.value,
-          Name: nameInput.value,
-          Email: emailInput.value,
-          Phone: phoneInput.value,
-          Date: dateInput.value,
-          Time: timeInput.value,
-          Guests: Number(guestsInput.value),
-          'Special requests': messageTextarea.value,
-        }),
-      });
-      const result = await response.json();
-
-      if (!response.ok || (result.success !== 'true' && result.success !== true)) {
-        throw new Error(result.message || result.error || 'Could not submit your reservation.');
-      }
-
-      confirmation.textContent = `Thank you, ${nameInput.value}. Your reservation request has been sent to the restaurant.`;
-      confirmation.hidden = false;
-      window.showToast('Reservation request received.');
-      form.reset();
-    } catch (error) {
-      confirmation.textContent = error.message || 'Unable to send your reservation. Please try again.';
-      confirmation.hidden = false;
-      confirmation.classList.add('reservation-error');
-    } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Reserve Table';
-    }
+  form.addEventListener('submit', () => {
+    replyToInput.value = emailInput.value;
   });
 
   contactSection.appendChild(form);
-  contactSection.appendChild(confirmation);
 
   // Add the contact section to content
   content.appendChild(contactSection);

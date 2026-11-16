@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Set up navigation button listeners
   setupNavigation();
+
+  if (new URLSearchParams(window.location.search).get('reservation') === 'submitted') {
+    window.history.replaceState({}, '', window.location.pathname);
+    window.showToast('Request received. Check your email for a confirmation.');
+  }
 });
 
 window.showToast = function showToast(message) {
