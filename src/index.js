@@ -5,7 +5,6 @@ import './styles/style.css';
 import { loadHome } from './modules/home.js';
 import { loadMenu } from './modules/menu.js';
 import { loadContact } from './modules/contact.js';
-import { loadOwnerDashboard } from './modules/owner.js';
 
 // Load the home page when the page first loads
 document.addEventListener('DOMContentLoaded', () => {
@@ -61,9 +60,6 @@ function setupNavigation() {
         case 'contact':
           loadContact();
           break;
-        case 'owner':
-          loadOwnerDashboard();
-          break;
         default:
           loadHome();
       }
@@ -99,9 +95,6 @@ window.addEventListener('switchTab', (e) => {
       break;
     case 'contact':
       loadContact();
-      break;
-    case 'owner':
-      loadOwnerDashboard();
       break;
     default:
       loadHome();

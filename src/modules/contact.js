@@ -1,5 +1,3 @@
-import { apiUrl } from './api.js';
-
 /**
  * Contact Page Module
  * 
@@ -155,26 +153,31 @@ export function loadContact() {
     confirmation.classList.remove('reservation-error');
 
     try {
-      const response = await fetch(apiUrl('/api/reservations'), {
+      const response = await fetch('https://formsubmit.co/ajax/snehavyas250@gmail.com', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
         body: JSON.stringify({
-          name: nameInput.value,
-          email: emailInput.value,
-          phone: phoneInput.value,
-          date: dateInput.value,
-          time: timeInput.value,
-          guests: Number(guestsInput.value),
-          message: messageTextarea.value,
+          _subject: 'New SnapBite reservation request',
+          _replyto: emailInput.value,
+          Name: nameInput.value,
+          Email: emailInput.value,
+          Phone: phoneInput.value,
+          Date: dateInput.value,
+          Time: timeInput.value,
+          Guests: Number(guestsInput.value),
+          'Special requests': messageTextarea.value,
         }),
       });
       const result = await response.json();
 
-      if (!response.ok) {
-        throw new Error(result.error || 'Could not submit your reservation.');
+      if (!response.ok || (result.success !== 'true' && result.success !== true)) {
+        throw new Error(result.message || result.error || 'Could not submit your reservation.');
       }
 
-      confirmation.textContent = `Thank you, ${result.data.name}. Your reservation request has been saved. The restaurant will follow up with you.`;
+      confirmation.textContent = `Thank you, ${nameInput.value}. Your reservation request has been sent to the restaurant.`;
       confirmation.hidden = false;
       window.showToast('Reservation request received.');
       form.reset();
