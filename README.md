@@ -1,6 +1,6 @@
 # SnapBite - Restaurant Website and RESTful API
 
-SnapBite is a modern, responsive restaurant website built with HTML, CSS, and JavaScript. It includes dynamic page views, a data-driven menu, reservation form validation, and an Express.js RESTful API for menu management.
+SnapBite is a modern, responsive restaurant website built with HTML, CSS, and JavaScript. It includes dynamic page views, a data-driven menu, a working reservation form backed by a persistent SQLite database, and an Express.js REST API.
 
 The project began as a personal web-development exercise and as part of The Odin Project's Restaurant Page project. For Web Application Development Practical 5, the existing frontend was extended with a Node.js and Express.js backend without replacing or redesigning the original website.
 
@@ -8,7 +8,7 @@ The project began as a personal web-development exercise and as part of The Odin
 
 [Visit SnapBite on GitHub Pages](https://snehavyas-dev.github.io/snapbite-restaurant-website/)
 
-The GitHub Pages deployment contains the static frontend. The REST API runs locally because GitHub Pages does not execute Node.js servers.
+The GitHub Pages deployment contains the static frontend. Deploy the REST API separately because GitHub Pages does not execute Node.js servers.
 
 ## Features
 
@@ -18,7 +18,8 @@ The GitHub Pages deployment contains the static frontend. The REST API runs loca
 - Tab-based navigation
 - Dynamic menu cards generated from JavaScript data
 - Reservation form with browser validation
-- Reservation confirmation feedback
+- Reservation requests saved to the server database
+- Password-protected owner dashboard for reviewing reservations
 - Responsive layout for desktop, tablet, and mobile
 - Interactive buttons, hover effects, and accessible image alt text
 - Webpack-powered development workflow
@@ -36,6 +37,7 @@ The GitHub Pages deployment contains the static frontend. The REST API runs loca
 - Consistent success and error responses
 - HTTP status codes for successful and failed requests
 - In-memory server-side menu data for simple practical demonstration
+- SQLite-backed reservation storage
 
 ## Technologies Used
 
@@ -62,17 +64,22 @@ src/
 ├── modules/
 │   ├── home.js              # Home view
 │   ├── menu.js              # Data-driven menu view
-│   └── contact.js            # Contact and reservation view
+│   ├── contact.js           # Contact and reservation view
+│   ├── owner.js             # Password-protected reservation dashboard
+│   └── api.js               # API URL configuration
 └── styles/
     └── style.css            # Responsive visual styling
 server/
 ├── server.js                # Express API entry point
 ├── routes/
-│   └── menuRoutes.js        # Menu API routes
+│   ├── menuRoutes.js        # Menu API routes
+│   └── reservationRoutes.js # Reservation API routes
 ├── controllers/
-│   └── menuController.js    # CRUD logic and validation
+│   ├── menuController.js    # Menu CRUD logic and validation
+│   └── reservationController.js
 └── data/
-    └── menuData.js          # In-memory API menu data
+    ├── menuData.js          # In-memory API menu data
+    └── reservationStore.js  # Persistent SQLite reservation storage
 webpack.config.js            # Webpack configuration
 package.json                # Scripts and dependencies
 ```
@@ -96,6 +103,10 @@ http://localhost:3001
 | POST | `/api/menu` | Create a menu item | 201 Created |
 | PUT | `/api/menu/:id` | Replace a menu item | 200 OK |
 | DELETE | `/api/menu/:id` | Delete a menu item | 200 OK |
+| POST | `/api/reservations` | Validate and save a reservation | 201 Created |
+| GET | `/api/reservations` | List reservations (owner password required) | 200 OK |
+
+Reservation requests are stored in `server/data/reservations.sqlite` by default. Set `DATABASE_PATH` to use another SQLite file. Set `OWNER_PASSWORD` before using the Owner tab; without it, owner access is disabled. The dashboard keeps the password only for the current browser tab.
 
 ### Example Menu Item
 
@@ -220,6 +231,26 @@ npm run api
 
 The API starts at `http://localhost:3001`.
 
+For local development, open the site with `npm start` and run the API in a second terminal. The webpack development server proxies `/api` requests to port 3001. Set an owner password before starting the API:
+
+```powershell
+$env:OWNER_PASSWORD = "use-a-long-private-password"
+npm run api
+```
+
+### Deploying reservations
+
+GitHub Pages only hosts the static frontend, so it cannot receive or save reservations by itself. Deploy the Express API separately. Render is a straightforward option for this project: create a Node web service, set `OWNER_PASSWORD` and `FRONTEND_ORIGIN` (for example, `https://snehavyas-dev.github.io`), and attach a persistent disk mounted at `/var/data`. Set `DATABASE_PATH` to `/var/data/reservations.sqlite`; without persistent storage the database may be lost when the service restarts or redeploys.
+
+Build and deploy the GitHub Pages frontend with the deployed API URL configured. In PowerShell, for example:
+
+```powershell
+$env:API_BASE_URL = "https://your-api-service.onrender.com"
+npm run deploy
+```
+
+Do not put the owner password in the frontend or commit it to the repository. Use HTTPS for the deployed API and set `FRONTEND_ORIGIN` to the exact frontend origin.
+
 ## Test with Postman
 
 Start the API before testing. Use `http://localhost:3001` as the base URL.
@@ -248,7 +279,7 @@ Generates menu cards dynamically from JavaScript objects. The existing frontend 
 
 ### Contact
 
-Displays restaurant contact information and provides a reservation form with browser-side validation and confirmation feedback.
+Displays restaurant contact information and submits validated reservation requests to the backend. The Owner navigation tab shows saved requests after password verification.
 
 ## Concepts Practiced
 
@@ -292,7 +323,7 @@ Deploy the static frontend to GitHub Pages:
 npm run deploy
 ```
 
-The Express API is currently intended for local practical demonstration. It is not deployed with the GitHub Pages frontend.
+The Express API must be deployed separately from the GitHub Pages frontend. See [Deploying reservations](#deploying-reservations) for the Render setup and persistent storage requirements.
 
 ## What I Learned
 
@@ -326,11 +357,9 @@ This project was also created as part of my learning journey through [The Odin P
 
 ## Future Improvements
 
-- Connect the API to a database for persistent menu data
-- Connect the frontend to the API with `fetch()` while preserving static deployment support
+- Connect the menu API to a database
 - Add an online ordering and cart system
-- Store reservations through a backend endpoint
-- Add authentication for protected management operations
+- Send reservation notifications by email
 - Add customer reviews and location information
 - Deploy the API alongside the frontend on a Node.js-compatible hosting platform
 

@@ -1,8 +1,32 @@
 const express = require('express');
 const menuRoutes = require('./routes/menuRoutes');
+const reservationRoutes = require('./routes/reservationRoutes');
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+const allowedOrigins = new Set([
+  'http://localhost:3000',
+  process.env.FRONTEND_ORIGIN,
+].filter(Boolean));
+
+app.use((request, response, next) => {
+  const origin = request.get('Origin');
+
+  if (origin && allowedOrigins.has(origin)) {
+    response.set('Access-Control-Allow-Origin', origin);
+    response.set('Vary', 'Origin');
+    response.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    response.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  }
+
+  if (request.method === 'OPTIONS') {
+    response.sendStatus(204);
+    return;
+  }
+
+  next();
+});
 
 app.use(express.json());
 
@@ -14,6 +38,7 @@ app.get('/api', (request, response) => {
 });
 
 app.use('/api/menu', menuRoutes);
+app.use('/api/reservations', reservationRoutes);
 
 app.use((request, response) => {
   response.status(404).json({

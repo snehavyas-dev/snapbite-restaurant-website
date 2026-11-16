@@ -1,3 +1,5 @@
+import { apiUrl } from './api.js';
+
 /**
  * Contact Page Module
  * 
@@ -73,6 +75,9 @@ export function loadContact() {
   const nameInput = document.createElement('input');
   nameInput.type = 'text';
   nameInput.placeholder = 'Your Name';
+  nameInput.name = 'name';
+  nameInput.autocomplete = 'name';
+  nameInput.maxLength = 100;
   nameInput.required = true;
   form.appendChild(nameInput);
 
@@ -80,6 +85,8 @@ export function loadContact() {
   const emailInput = document.createElement('input');
   emailInput.type = 'email';
   emailInput.placeholder = 'Your Email';
+  emailInput.name = 'email';
+  emailInput.autocomplete = 'email';
   emailInput.required = true;
   form.appendChild(emailInput);
 
@@ -87,18 +94,23 @@ export function loadContact() {
   const phoneInput = document.createElement('input');
   phoneInput.type = 'tel';
   phoneInput.placeholder = 'Your Phone';
+  phoneInput.name = 'phone';
+  phoneInput.autocomplete = 'tel';
   phoneInput.required = true;
   form.appendChild(phoneInput);
 
   // Create date input
   const dateInput = document.createElement('input');
   dateInput.type = 'date';
+  dateInput.name = 'date';
+  dateInput.min = new Date().toISOString().slice(0, 10);
   dateInput.required = true;
   form.appendChild(dateInput);
 
   // Create time input
   const timeInput = document.createElement('input');
   timeInput.type = 'time';
+  timeInput.name = 'time';
   timeInput.required = true;
   form.appendChild(timeInput);
 
@@ -106,6 +118,7 @@ export function loadContact() {
   const guestsInput = document.createElement('input');
   guestsInput.type = 'number';
   guestsInput.placeholder = 'Number of Guests';
+  guestsInput.name = 'guests';
   guestsInput.min = '1';
   guestsInput.max = '20';
   guestsInput.required = true;
@@ -114,6 +127,8 @@ export function loadContact() {
   // Create message textarea
   const messageTextarea = document.createElement('textarea');
   messageTextarea.placeholder = 'Special requests (optional)';
+  messageTextarea.name = 'message';
+  messageTextarea.maxLength = 1000;
   messageTextarea.rows = '4';
   form.appendChild(messageTextarea);
 
@@ -128,21 +143,49 @@ export function loadContact() {
   confirmation.classList.add('reservation-confirmation');
   confirmation.setAttribute('role', 'status');
   confirmation.hidden = true;
+  confirmation.setAttribute('aria-live', 'polite');
 
-  // Handle form submission
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    // Get form values
-    const name = nameInput.value;
-    const date = dateInput.value;
-    const time = timeInput.value;
-    const guests = guestsInput.value;
-    
-    confirmation.textContent = `Thank you, ${name}. Your table for ${guests} guest(s) is requested for ${date} at ${time}.`;
-    confirmation.hidden = false;
-    window.showToast('Reservation request received.');
-    form.reset();
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
+    confirmation.hidden = true;
+    confirmation.classList.remove('reservation-error');
+
+    try {
+      const response = await fetch(apiUrl('/api/reservations'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: nameInput.value,
+          email: emailInput.value,
+          phone: phoneInput.value,
+          date: dateInput.value,
+          time: timeInput.value,
+          guests: Number(guestsInput.value),
+          message: messageTextarea.value,
+        }),
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Could not submit your reservation.');
+      }
+
+      confirmation.textContent = `Thank you, ${result.data.name}. Your reservation request has been saved. The restaurant will follow up with you.`;
+      confirmation.hidden = false;
+      window.showToast('Reservation request received.');
+      form.reset();
+    } catch (error) {
+      confirmation.textContent = error.message || 'Unable to send your reservation. Please try again.';
+      confirmation.hidden = false;
+      confirmation.classList.add('reservation-error');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Reserve Table';
+    }
   });
 
   contactSection.appendChild(form);

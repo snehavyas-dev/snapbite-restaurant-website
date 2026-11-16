@@ -4,10 +4,14 @@
   "description": "SnapBite restaurant website - Odin Project Restaurant Page",
   "homepage": "https://snehavyas-dev.github.io/snapbite-restaurant-website/",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=22.13"
+  },
   "scripts": {
     "start": "webpack serve --mode development",
     "api": "node server/server.js",
     "build": "webpack --mode production",
+    "test": "node --test",
     "deploy": "npm run build && gh-pages -d dist"
   },
   "keywords": [
