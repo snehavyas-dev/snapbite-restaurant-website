@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const menuRoutes = require('./routes/menuRoutes');
 const reservationRoutes = require('./routes/reservationRoutes');
 
@@ -40,6 +41,8 @@ app.get('/api', (request, response) => {
 app.use('/api/menu', menuRoutes);
 app.use('/api/reservations', reservationRoutes);
 
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
 app.use((request, response) => {
   response.status(404).json({
     success: false,
@@ -63,7 +66,7 @@ app.use((error, request, response, next) => {
 
 if (require.main === module) {
   app.listen(port, () => {
-    console.log(`SnapBite API running at http://localhost:${port}`);
+    console.log(`SnapBite server listening on port ${port}`);
   });
 }
 
