@@ -509,11 +509,30 @@ main {
 
 .reserve-form input,
 .reserve-form textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 14px;
     font-family: 'Poppins', sans-serif;
+}
+
+.reserve-form input[type="date"],
+.reserve-form input[type="time"] {
+    display: block;
+    height: 44px;
+    min-height: 44px;
+    line-height: 20px;
+    background-color: #fff;
+    color: #333;
+}
+
+.reserve-form input[type="date"]::-webkit-date-and-time-value,
+.reserve-form input[type="time"]::-webkit-date-and-time-value {
+    text-align: left;
 }
 
 .reserve-form input:focus,
@@ -775,6 +794,28 @@ footer a:hover {
     header nav {
         flex-direction: column;
         gap: 10px;
+    }
+
+    .reserve {
+        max-width: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 20px 14px;
+        box-sizing: border-box;
+    }
+
+    .reserve-form {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .reserve-form input,
+    .reserve-form textarea,
+    .reserve-form button {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
     .nav-buttons {

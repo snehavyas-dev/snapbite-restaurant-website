@@ -11,6 +11,10 @@ function validateReservation(body) {
     return 'Reservation details are required';
   }
 
+  if (typeof body._honey === 'string' && body._honey.trim()) {
+    return 'Unable to submit reservation';
+  }
+
   const { name, email, phone, date, time, guests, message = '' } = body;
 
   if ([name, email, phone, date, time].some((value) => typeof value !== 'string' || !value.trim())) {

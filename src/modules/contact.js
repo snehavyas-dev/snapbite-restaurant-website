@@ -1,6 +1,8 @@
+import { apiUrl } from './api.js';
+
 /**
  * Contact Page Module
- * 
+ *
  * Generates the contact/reservation page with:
  * - Restaurant contact information
  * - Opening hours
@@ -31,7 +33,7 @@ export function loadContact() {
   const addressDiv = document.createElement('div');
   const addressLabel = document.createElement('strong');
   addressLabel.textContent = 'Address: ';
-  const addressText = document.createTextNode('123 Food Street, Flavor City, FC 12345');
+  const addressText = document.createTextNode('12 MG Road, Bengaluru, Karnataka 560001');
   addressDiv.appendChild(addressLabel);
   addressDiv.appendChild(addressText);
   contactInfo.appendChild(addressDiv);
@@ -40,7 +42,7 @@ export function loadContact() {
   const phoneDiv = document.createElement('div');
   const phoneLabel = document.createElement('strong');
   phoneLabel.textContent = 'Phone: ';
-  const phoneText = document.createTextNode('+1 (555) 123-4567');
+  const phoneText = document.createTextNode('+91 98765 43210');
   phoneDiv.appendChild(phoneLabel);
   phoneDiv.appendChild(phoneText);
   contactInfo.appendChild(phoneDiv);
@@ -49,7 +51,7 @@ export function loadContact() {
   const emailDiv = document.createElement('div');
   const emailLabel = document.createElement('strong');
   emailLabel.textContent = 'Email: ';
-  const emailText = document.createTextNode('hello@snapbite.com');
+  const emailText = document.createTextNode('hello@snapbite.in');
   emailDiv.appendChild(emailLabel);
   emailDiv.appendChild(emailText);
   contactInfo.appendChild(emailDiv);
@@ -68,24 +70,15 @@ export function loadContact() {
   // Create reservation form
   const form = document.createElement('form');
   form.classList.add('reserve-form');
-  form.method = 'POST';
-  form.action = 'https://formsubmit.co/snehavyas250@gmail.com';
 
-  const addHiddenField = (name, value) => {
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  };
-
-  addHiddenField('_subject', 'New SnapBite reservation request');
-  addHiddenField(
-    '_autoresponse',
-    'Thanks for your reservation request at SnapBite. We received it and will contact you to confirm availability. This email is not a booking confirmation.',
-  );
-  addHiddenField('_next', 'https://snehavyas-dev.github.io/snapbite-restaurant-website/?reservation=submitted');
-  addHiddenField('_template', 'table');
+  const honeyInput = document.createElement('input');
+  honeyInput.type = 'text';
+  honeyInput.name = '_honey';
+  honeyInput.tabIndex = -1;
+  honeyInput.autocomplete = 'off';
+  honeyInput.setAttribute('aria-hidden', 'true');
+  honeyInput.style.display = 'none';
+  form.appendChild(honeyInput);
 
   // Create name input
   const nameInput = document.createElement('input');
@@ -105,11 +98,6 @@ export function loadContact() {
   emailInput.autocomplete = 'email';
   emailInput.required = true;
   form.appendChild(emailInput);
-
-  const replyToInput = document.createElement('input');
-  replyToInput.type = 'hidden';
-  replyToInput.name = '_replyto';
-  form.appendChild(replyToInput);
 
   // Create phone input
   const phoneInput = document.createElement('input');
@@ -160,8 +148,47 @@ export function loadContact() {
   submitBtn.textContent = 'Reserve Table';
   form.appendChild(submitBtn);
 
-  form.addEventListener('submit', () => {
-    replyToInput.value = emailInput.value;
+  const status = document.createElement('p');
+  status.classList.add('reservation-status');
+  status.setAttribute('role', 'status');
+  form.appendChild(status);
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    submitBtn.disabled = true;
+    status.textContent = 'Submitting reservation...';
+
+    const reservation = {
+      name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      date: dateInput.value,
+      time: timeInput.value,
+      guests: Number(guestsInput.value),
+      message: messageTextarea.value.trim(),
+      _honey: honeyInput.value,
+    };
+
+    try {
+      const response = await fetch(apiUrl('/api/reservations'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reservation),
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Unable to submit reservation.');
+      }
+
+      form.reset();
+      status.textContent = 'Reservation request submitted successfully.';
+      window.showToast('Reservation request received.');
+    } catch (error) {
+      status.textContent = error.message || 'Unable to submit reservation.';
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 
   contactSection.appendChild(form);

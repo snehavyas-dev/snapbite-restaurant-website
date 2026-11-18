@@ -35,6 +35,21 @@ test('reservation submissions are validated, persisted, and private to the owner
   });
   assert.equal(invalidResponse.status, 400);
 
+  const honeyResponse = await fetch(`${baseUrl}/api/reservations`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: 'Spam Bot',
+      email: 'spam@example.com',
+      phone: '+91 98765 43210',
+      date: '2099-01-02',
+      time: '18:30',
+      guests: 2,
+      _honey: 'spam value',
+    }),
+  });
+  assert.equal(honeyResponse.status, 400);
+
   const privateResponse = await fetch(`${baseUrl}/api/reservations`);
   assert.equal(privateResponse.status, 401);
 
@@ -44,7 +59,7 @@ test('reservation submissions are validated, persisted, and private to the owner
     body: JSON.stringify({
       name: 'Ada Lovelace',
       email: 'ada@example.com',
-      phone: '+1 555 123 4567',
+      phone: '+91 98765 43210',
       date: '2099-01-02',
       time: '18:30',
       guests: 3,
